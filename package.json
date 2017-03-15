@@ -1,0 +1,19 @@
+{
+  "name": "chat-client-socket.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brahian609/chat-client-socket.io.git"
+  },
+  "author": "Brahian Giraldo Medina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brahian609/chat-client-socket.io/issues"
+  },
+  "homepage": "https://github.com/brahian609/chat-client-socket.io#readme"
+}
