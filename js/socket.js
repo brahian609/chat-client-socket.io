@@ -9,9 +9,12 @@ socket.on('connect', () => {
         name: name,
         email: email
       };
-    socket.emit('new_chat', data);
-    $("#contact").hide();
-    $('#message').show();
+    socket.emit('new_chat', data, (response) => {
+      if (response){
+        $("#contact").hide();
+        $('#message').show();
+      }
+    });
   });
 
   $('#message').on('keyup', function (event) {
