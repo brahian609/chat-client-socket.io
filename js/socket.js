@@ -10,7 +10,8 @@ socket.on('connect', () => {
       hour = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
       data = {
         name: name,
-        email: email
+        email: email,
+        messaage: message
       };
     socket.emit('new_chat', data, (response) => {
       if (response) {
