@@ -1,7 +1,10 @@
 let socket = io('http://192.168.81.32:3001');
 
+var socket_id;
+
 socket.on('connect', () => {
-  console.log('connect');
+  socket_id = socket.id;
+  socket.emit('channel', socket_id);
   $('#send').click(function () {
     let name = $("#name").val(),
       email = $("#email").val(),
@@ -11,7 +14,8 @@ socket.on('connect', () => {
       data = {
         name: name,
         email: email,
-        messaage: message
+        message: message,
+        channel: socket_id
       };
     socket.emit('new_chat', data, (response) => {
       if (response) {
@@ -34,21 +38,24 @@ socket.on('connect', () => {
       }
     });
   });
+});
+let cc = 1;
+let socketChannel = io(`http://192.168.81.32:3001/channel-${cc}`);
 
-  $('#message').on('keyup', function (event) {
-    if (event.which === 13) {
-      let message = $(this).val(),
-        date = new Date(),
-        hour = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
-        data = {
-          message: message
-        };
-      socket.emit('send_message', data);
+$('#message').on('keyup', function (event) {
+  if (event.which === 13) {
+    let message = $(this).val(),
+      date = new Date(),
+      hour = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+      data = {
+        message: message
+      };
+    socketChannel.emit('send_message', data);
 
-      let $chat = $("#chat");
-      $chat.show();
+    let $chat = $("#chat");
+    $chat.show();
 
-      $chat.append(`
+    $chat.append(`
         <div class="row msg_container base_sent">
             <div class="col-xs-10 col-md-10">
                 <div class="messages msg_sent">
@@ -58,17 +65,17 @@ socket.on('connect', () => {
             </div>
         </div>
       `);
-      $(this).val('');
-      return false;
-    }
-  });
+    $(this).val('');
+    return false;
+  }
+});
 
-  socket.on('receiveMessage', (data) => {
-    let $chat = $("#chat"),
-      date = new Date(),
-      hour = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+socketChannel.on('receiveMessage', (data) => {
+  let $chat = $("#chat"),
+    date = new Date(),
+    hour = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
-    $chat.append(`
+  $chat.append(`
        <div class="row msg_container base_receive">
           <div class="col-xs-10 col-md-10">
               <div class="messages msg_receive">
@@ -78,5 +85,4 @@ socket.on('connect', () => {
           </div>
        </div>
      `);
-  });
 });
