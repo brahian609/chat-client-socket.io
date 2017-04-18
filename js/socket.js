@@ -71,6 +71,7 @@ setTimeout(function () {
         </div>
       `);
       $(this).val('');
+      scrollToBottom();
       return false;
     }
   });
@@ -90,6 +91,7 @@ setTimeout(function () {
           </div>
        </div>
      `);
+    scrollToBottom();
   });
 
 }, 200);
@@ -100,4 +102,9 @@ function setChannel(channel) {
 
 function getChannel() {
   return this.channel;
+}
+
+function scrollToBottom() {
+  let panel = document.getElementById('panel-message');
+  panel.scrollTop = panel.scrollHeight;
 }
