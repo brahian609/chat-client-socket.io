@@ -43,8 +43,6 @@ socket.on('connect', () => {
 
 setTimeout(function () {
   let channel = this.getChannel();
-  console.log('channel');
-  console.log(channel);
   let socketChannel = io(`http://192.168.81.32:3001/channel-${channel}`);
 
   $('#message').on('keyup', function (event) {
